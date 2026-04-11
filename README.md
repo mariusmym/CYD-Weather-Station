@@ -6,7 +6,7 @@ A weather station firmware for the **ESP32-2432S028R** (Cheap Yellow Display) us
 Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 
 
-The image below is just a mockup based on the dark theme colors and layout constants from the code. The actual TFT rendering will look slightly different due to the bitmap fonts and pixel-level drawing, but the layout, colors and proportions should be close. More real life pictures in the images folder.
+The image below is **just a mockup** based on the dark theme colors and layout constants from the code. The actual TFT rendering will look slightly different due to the bitmap fonts and pixel-level drawing, but the layout, colors and proportions should be close. More real life pictures in the images folder.
 
 <img width="1199" height="448" alt="mockUp-" src="https://github.com/user-attachments/assets/f6693776-b4dd-4324-b93d-9b0750e4b53a" />
 
