@@ -5,7 +5,8 @@ A weather station firmware for the **ESP32-2432S028R** (Cheap Yellow Display) us
 
 Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 
-<img width="677" height="253" alt="mockUp" src="https://github.com/user-attachments/assets/d8ee805c-0309-47b7-a308-262dae9dd1ff" />
+<img width="1199" height="448" alt="mockUp-" src="https://github.com/user-attachments/assets/f6693776-b4dd-4324-b93d-9b0750e4b53a" />
+
 
 
 
