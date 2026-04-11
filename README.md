@@ -110,6 +110,12 @@ CYD_Weather_v6_5_5/
 └── README.md
 ```
 
+## Notes
+
+The **dark theme** is the primary and most polished experience. The light theme is functional but still a work in progress — colors and contrast may be refined in future updates.
+
+The photos in this repository were taken with a phone camera and don't accurately represent the on-screen colors. TFT displays are notoriously difficult to photograph — the actual result looks significantly better in person.
+
 ## Version History
 
 - **v6.5.5** - Location pin icon in header, improved SD card icon with contact pins, local IP on Status tab, backlight auto-off after 3 min idle, cleaned up debug output
@@ -120,4 +126,5 @@ CYD_Weather_v6_5_5/
 ## License
 
 Personal / educational use. The OpenWeather API key is subject to their terms of service.
+
 
