@@ -18,7 +18,7 @@ More *real life* pictures in the images folder.
 - **3-hour forecast** - next 4 forecast slots with icons, temperature and rain probability
 - **5-day daily view** - aggregated min/max temperatures and rain chance per day
 - **Dark / Light theme** - toggle on the Status tab, persists across reboots (stored in ESP32 NVS flash)
-- **SD card data logger** - logs weather readings to CSV on a micro-SD card
+- **SD card data logger** - logs weather readings to CSV on a micro-SD card (**SD card has be formated as FAT32**)
   - Manual logging via "log to SD" button on the Status tab
   - Automatic daily log at 12:00 local time
   - SD card presence indicator in the header bar (only updates at boot or when you log data onto the SD card)
