@@ -5,6 +5,10 @@ A weather station firmware for the **ESP32-2432S028R** (Cheap Yellow Display) us
 
 Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 
+![1 NowTab1](https://github.com/user-attachments/assets/0635e6fa-2b38-4062-b996-d38d0198875b) ![3 HourlyTab](https://github.com/user-attachments/assets/94fe2768-82e9-4059-9772-b2bb9af29f4c)
+
+
+
 ## Features
 
 - **Current weather** - temperature, feels-like, humidity, wind, pressure, sunrise/sunset
