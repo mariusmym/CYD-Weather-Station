@@ -107,7 +107,7 @@ CYD_Weather_v6_5_5/
 ├── ui.h/.cpp                 All UI drawing + touch handling
 ├── icons.h/.cpp              Procedural weather icons
 ├── sd_logger.h/.cpp          SD card CSV logger (HSPI)
-└── README.md                 This file
+└── README.md
 ```
 
 ## Version History
