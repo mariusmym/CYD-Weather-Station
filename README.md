@@ -35,7 +35,7 @@ Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow
 | Component | Notes |
 |-----------|-------|
 | Board | ESP32-2432S028R (CYD) |
-| Display | 2.8" ILI9341 320x240 TFT via VSPI |
+| Display | 2.8" ST7789 320x240 TFT via VSPI |
 | Touch | XPT2046 resistive, dedicated SPI pins (GPIO 25/39/32/33) |
 | SD Card | Micro-SD slot, uses HSPI bus (GPIO 18/19/23, CS on GPIO 5) |
 | Backlight | GPIO 21 |
