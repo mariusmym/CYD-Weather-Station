@@ -3,8 +3,8 @@ ESP32 CYD weather station with OpenWeather free API, dark/light themes, SD loggi
 
 <img width="1008" height="378" alt="UImockUP" src="https://github.com/user-attachments/assets/59e98da6-0345-4d3a-b7a9-5c3cfcb73743" />
 
-The image above is **just a mockup** for the first two tabs, based on the dark theme colors and layout constants from the code. The actual TFT rendering will look slightly different due to the bitmap fonts and pixel-level drawing, but the layout, colors and proportions should be close. 
-More *real life* pictures in the images folder.
+`The image above is **just a mockup** for the first two tabs, based on the dark theme colors and layout constants from the code. The actual TFT rendering will look slightly different due to the bitmap fonts and pixel-level drawing, but the layout, colors and proportions should be close.
+More *real life* pictures in the images folder.`
 
 
 This weather station firmware is developed using the  **CYD2USB ESP32-2432S028R** (Cheap Yellow Display with 2 USB ports) and the free vresion of OpenWeather API.
