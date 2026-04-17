@@ -7,7 +7,7 @@ ESP32 CYD weather station with OpenWeather free API, dark/light themes, SD loggi
 More *real life* pictures in the images folder.`
 
 
-This weather station firmware is developed using the  **CYD2USB ESP32-2432S028R** (Cheap Yellow Display with 2 USB ports) and the free vresion of OpenWeather API.
+This weather station firmware is developed using the  **CYD2USB ESP32-2432S028R** (Cheap Yellow Display with 2 USB ports and ST7789 display) and the free vresion of OpenWeather API.
 
 Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 
