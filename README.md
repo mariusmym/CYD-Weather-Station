@@ -14,6 +14,10 @@ Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow
 
 <img width="408" height="235" alt="CYD2USB-ST7789" src="https://github.com/user-attachments/assets/0118b8dc-7d46-406f-a9bf-24ec9ea4fef6" />
 
+## Releases
+
+Check the [Releases](../../releases) page for the latest firmware version.
+
 
 ## Features
 
