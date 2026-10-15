@@ -86,7 +86,7 @@ Install these libraries in Arduino IDE (Library Manager or manual):
 
 ## Web Dashboard
 
-Once the device is connected to Wi-Fi, it serves a dark-themed dashboard on port 80 at its local IP (e.g. `http://192.168.0.50` - check *Status* tab for the assigned IP). The page is stored in flash and needs no internet access or extra files.
+Once the device is connected to Wi-Fi, it serves a dark-themed dashboard on port 80 at its local IP (e.g. `http://192.168.0.50` - check *Status* tab on the board for the assigned IP). The page is stored in flash and needs no internet access or extra files.
 
 - **Header** - location pin with city name, Wi-Fi signal bars with RSSI in dBm (green / orange / red by signal quality)
 - **Now** - current conditions, daily min/max, precipitation, UV, sunrise/sunset
