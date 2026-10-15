@@ -1,5 +1,5 @@
 # CYD-Weather-Station
-ESP32 CYD weather station with OpenWeather free API, dark/light themes, SD logging, touch UI, and auto-backlight timeout
+ESP32 CYD weather station with OpenWeather free API, dark/light themes, SD logging, touch UI, auto-backlight timeout and a built-in web dashboard
 
 <img width="1008" height="378" alt="UImockUP" src="https://github.com/user-attachments/assets/59e98da6-0345-4d3a-b7a9-5c3cfcb73743" />
 
@@ -8,7 +8,7 @@ The actual TFT rendering will look slightly different due to the bitmap fonts an
 More *real life* pictures in the images folder.`
 
 
-This weather station firmware is developed using the  **CYD2USB ESP32-2432S028R** (Cheap Yellow Display with 2 USB ports and ST7789 display) and the free vresion of OpenWeather API.
+This weather station firmware is developed using the  **CYD2USB ESP32-2432S028R** (Cheap Yellow Display with 2 USB ports and ST7789 display) and the free version of OpenWeather API.
 
 Hardware reference: [ESP32-Cheap-Yellow-Display](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 
@@ -22,18 +22,20 @@ Check the [Releases](../../releases) page for the latest firmware version.
 ## Features
 
 - **Current weather** - temperature, feels-like, humidity, wind, pressure, sunrise/sunset
-- **3-hour forecast** - next 4 forecast slots with icons, temperature and rain probability
+- **3-hour forecast** - next forecast slots with icons, temperature and rain probability
 - **5-day daily view** - aggregated min/max temperatures and rain chance per day
+- **Web dashboard** - open the device's local IP in any browser on the same network to see all four tabs (Now, Hourly, Daily, Status), with Refresh, Log to SD and Restart buttons
 - **Dark / Light theme** - toggle on the Status tab, persists across reboots (stored in ESP32 NVS flash)
-- **SD card data logger** - logs weather readings to CSV on a micro-SD card (**SD card has be formated as FAT32**)
-  - Manual logging via "log to SD" button on the Status tab
-  - Automatic daily log at 12:00 local time
+- **SD card data logger** - logs weather readings to CSV on a micro-SD card (**SD card has to be formatted as FAT32**)
+  - Automatic log at power-on
+  - Automatic daily log during the 12:00 hour (local time)
+  - Manual logging via the "log to SD" button on the Status tab or from the web dashboard
   - SD card presence indicator in the header bar (only updates at boot or when you log data onto the SD card)
 - **Live header** - location pin, city name, clock (synced via NTP), Wi-Fi signal bars, SD card icon
 - **Touch navigation** - four tabs (Now, Hourly, Daily, Status) plus a refresh button
 - **Status tab** - state, last update, local IP, SD card status, uptime, restart/log/theme buttons
 - **Backlight timeout** - screen turns off after inactivity, wakes instantly on touch
-- **Restart button** - soft restart from the Status tab
+- **Restart button** - soft restart from the Status tab or the web dashboard
 
 ## Hardware
 
@@ -60,8 +62,9 @@ Install these libraries in Arduino IDE (Library Manager or manual):
 
 - **TFT_eSPI** by Bodmer - display driver
 - **XPT2046_Touchscreen** by Paul Stoffregen - touch input
-- **ArduinoJson** by Benoit Blanchon - API response parsing
+- **ArduinoJson** by Benoit Blanchon - API response parsing and web dashboard JSON
 - **SD** (built-in) - micro-SD card access
+- **WiFi** and **WebServer** (built-in, ESP32 core) - Wi-Fi connection and web dashboard
 
 ## Setup
 
@@ -79,14 +82,45 @@ Install these libraries in Arduino IDE (Library Manager or manual):
    ```
 3. Get a free OpenWeather API key at [openweathermap.org](https://openweathermap.org/api). This firmware uses the free `/data/2.5/weather` and `/data/2.5/forecast` endpoints (no paid One Call API needed).
 4. Compile and upload. The Arduino IDE project folder and `.ino` file must share the same name.
+5. Open the IP address shown on the Status tab (or in Serial output) in a browser to reach the web dashboard.
+
+## Web Dashboard
+
+Once the device is connected to Wi-Fi, it serves a dark-themed dashboard on port 80 at its local IP (e.g. `http://192.168.0.50`). The page is stored in flash and needs no internet access or extra files.
+
+- **Header** - location pin with city name, Wi-Fi signal bars with RSSI in dBm (green / orange / red by signal quality)
+- **Now** - current conditions, daily min/max, precipitation, UV, sunrise/sunset
+- **Hourly** - forecast cards in a grid with icon, temperature and rain chance
+- **Daily** - 5-day forecast with min/max temperature bars and rain chance
+- **Status** - firmware, status, uptime, Wi-Fi RSSI, IP, free heap, SD card, last update
+- **Actions** - Refresh weather, Log to SD and Restart (with confirmation), available from the tabs
+- Data refreshes automatically every 60 seconds
+
+Actions from the browser are queued and run by the main loop, the same way touch actions are, so the web server never accesses the SD card or display directly.
+
+### API endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET  | `/`             | Web dashboard |
+| GET  | `/api/data`     | Weather + device status as JSON |
+| POST | `/api/refresh`  | Fetch fresh weather data |
+| POST | `/api/log`      | Write an SD card log entry |
+| POST | `/api/restart`  | Restart the device |
 
 ## SD Card Logging
 
 Weather data is logged as CSV to `/log/YYYY-MM.csv` on the SD card. Each entry records:
 
 ```
-datetime, temp, feels, humidity, wind_kph, pressure, clouds, description
+datetime, temp, feels, daily_min, daily_max, precip_mm, humidity, wind_kph, pressure, clouds, description
 ```
+
+A log entry is written:
+
+- at power-on, after the first successful weather fetch
+- once per day during the 12:00 hour (if the device boots during the 12:00 hour, the power-on log counts as that day's noon log)
+- whenever you press "log to SD" on the touch screen or the web dashboard
 
 The SD card uses a dedicated HSPI bus to avoid conflicts with the display (VSPI) and touch controller. If your CYD variant has different SD pins, adjust `sd_logger.cpp`.
 
@@ -109,18 +143,19 @@ Set `TOUCH_DEBUG = true` temporarily and watch Serial output while tapping corne
 ## File Structure
 
 ```
-CYD_Weather_v6_5_5/
-├── CYD_Weather_v6_5_5.ino   Main sketch
-├── config.h                  Themes, layout, pins, timing
-├── secrets.h                 WiFi + API credentials (git-ignored)
-├── theme.cpp                 Runtime theme switching + NVS persistence
-├── display_manager.h/.cpp    TFT init
-├── touch_input.h/.cpp        Touch controller driver
-├── weather_client.h/.cpp     OpenWeather API client + JSON parsing
-├── weather_types.h           Data structures
-├── ui.h/.cpp                 All UI drawing + touch handling
-├── icons.h/.cpp              Procedural weather icons
-├── sd_logger.h/.cpp          SD card CSV logger (HSPI)
+CYD_WeatherStation_v6_5_9/
+├── CYD_WeatherStation_v6_5_9.ino   Main sketch
+├── config.h                        Themes, layout, pins, timing
+├── secrets.h                       WiFi + API credentials (git-ignored)
+├── theme.cpp                       Runtime theme switching + NVS persistence
+├── display_manager.h/.cpp          TFT init
+├── touch_input.h/.cpp              Touch controller driver
+├── weather_client.h/.cpp           OpenWeather API client + JSON parsing
+├── weather_types.h                 Data structures
+├── ui.h/.cpp                       All UI drawing + touch handling
+├── icons.h/.cpp                    Procedural weather icons
+├── sd_logger.h/.cpp                SD card CSV logger (HSPI)
+├── web_server.h/.cpp               Web dashboard + JSON API
 └── README.md
 ```
 
@@ -130,8 +165,11 @@ The **dark theme** is the primary and most polished experience. The light theme 
 
 The photos in this repository were taken with a phone camera and don't accurately represent the on-screen colors. TFT displays are notoriously difficult to photograph — the actual result looks significantly better in person.
 
+The web dashboard is plain HTTP with no authentication, so keep the device on your trusted home network.
+
 ## Version History
 
+- **v6.5.9** - Web dashboard on the local IP (Now/Hourly/Daily/Status tabs, location pin, Wi-Fi bars, Refresh/Log to SD/Restart from the browser, JSON API), SD log at power-on, more reliable daily log during the 12:00 hour, daily min/max and precipitation added to the CSV log
 - **v6.5.5** - Location pin icon in header, improved SD card icon with contact pins, local IP on Status tab, backlight auto-off after 3 min idle, cleaned up debug output
 - **v6.5.3** - Dedicated HSPI bus for SD card, restart button, temporary status messages, touch recovery after SD access
 - **v6.4.x** - Runtime dark/light theme toggle, SD card logger, refined color palettes
@@ -140,5 +178,3 @@ The photos in this repository were taken with a phone camera and don't accuratel
 ## License
 
 Personal / educational use. The OpenWeather API key is subject to their terms of service.
-
-
