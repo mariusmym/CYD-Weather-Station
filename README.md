@@ -86,7 +86,7 @@ Install these libraries in Arduino IDE (Library Manager or manual):
 
 ## Web Dashboard
 
-Once the device is connected to Wi-Fi, it serves a dark-themed dashboard on port 80 at its local IP (e.g. `http://192.168.0.50`). The page is stored in flash and needs no internet access or extra files.
+Once the device is connected to Wi-Fi, it serves a dark-themed dashboard on port 80 at its local IP (e.g. `http://192.168.0.50` - check *Status* tab for the assigned IP). The page is stored in flash and needs no internet access or extra files.
 
 - **Header** - location pin with city name, Wi-Fi signal bars with RSSI in dBm (green / orange / red by signal quality)
 - **Now** - current conditions, daily min/max, precipitation, UV, sunrise/sunset
@@ -166,14 +166,6 @@ The **dark theme** is the primary and most polished experience. The light theme 
 The photos in this repository were taken with a phone camera and don't accurately represent the on-screen colors. TFT displays are notoriously difficult to photograph — the actual result looks significantly better in person.
 
 The web dashboard is plain HTTP with no authentication, so keep the device on your trusted home network.
-
-## Version History
-
-- **v6.5.9** - Web dashboard on the local IP (Now/Hourly/Daily/Status tabs, location pin, Wi-Fi bars, Refresh/Log to SD/Restart from the browser, JSON API), SD log at power-on, more reliable daily log during the 12:00 hour, daily min/max and precipitation added to the CSV log
-- **v6.5.5** - Location pin icon in header, improved SD card icon with contact pins, local IP on Status tab, backlight auto-off after 3 min idle, cleaned up debug output
-- **v6.5.3** - Dedicated HSPI bus for SD card, restart button, temporary status messages, touch recovery after SD access
-- **v6.4.x** - Runtime dark/light theme toggle, SD card logger, refined color palettes
-- **v6.3.2** - Original TFT_eSPI rewrite with free OpenWeather plan support
 
 ## License
 
